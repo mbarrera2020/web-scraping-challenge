@@ -93,16 +93,104 @@ def scrape_info():
 
     relative_image_path
 
+    # ------------------------------------------
+    # - Mars Facts
+    # ------------------------------------------
+    # Visit the following URL
+    url = 'https://space-facts.com/mars/'
+    browser.visit(url)
 
+    # Scrape page into Soup
+    html = browser.html
+    soup = BeautifulSoup(html, 'html.parser')
+    #soup
 
+    # Examine the results, then determine element that contains sought info
+    #print(soup.prettify())
 
+    # Scrape the table containing facts about the planet (Mars) including Diameter, Mass, etc.
+    mars_facts_table = pd.read_html(url)
+    mars_facts_table
 
+    mars_df = mars_facts_table[2]
+    mars_df
 
+    # rename columns (0 = Desc, 1 = Value)
+    mars_df.columns = ["Desc", "Value"]
+    mars_df
 
+    # save table as html file named: data_table.html
+    mars_df.to_html("mars_data.html")  
 
+    # assign it to a variable (string) 
+    html_mars_table = mars_df.to_html()
+    html_mars_table
+
+    # ------------------------------------------
+    # - Mars Hemispheres
+    # ------------------------------------------
+    # Visit the following URL  -- USGS Astrogeology site 
+    root_url = 'https://astrogeology.usgs.gov'
+    url = 'https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars'
+    browser.visit(url)
+
+    time.sleep(1)
+
+    # Scrape page into Soup
+    html = browser.html
+    soup = BeautifulSoup(html, 'html.parser')
+    #soup
+
+    # Examine the results, then determine element that contains sought info
+    #print(soup.prettify())
+
+    # Mars hemispheres & image URLs 
+    mars_hemispheres = soup.find('div', class_='collapsible results')
+    all_mars_hemispheres = mars_hemispheres.find_all('div', class_='item') 
+
+    # Store the urls in an array
+    hemisphere_img_urls = []
+
+    # Iterate through each hemisphere and collect data
+    # Save both the image url string for the full resolution hemisphere image, and the Hemisphere title containing 
+    # the hemisphere name.
+
+    for x in all_mars_hemispheres:
+        hemisphere_link = mars_hemispheres.a["href"]
+    
+        #Click each of the links to the hemispheres in order to find the image url to the full resolution image.
+        hemisphere = x.find('div', class_="description")
+        h_title = hemisphere.h3.text   
+        h_link = hemisphere.a["href"]    
+        browser.visit(root_url + h_link)        
+        img_html = browser.html
+        img_soup = BeautifulSoup(img_html, 'html.parser')  
+        img_link = img_soup.find('div', class_='downloads')
+        img_url = img_link.find('li').a['href']
+    
+        # Use a Python dictionary to store the data using the keys img_url and title.
+        mars_image_dict = {}
+        mars_image_dict['title'] = h_title
+        mars_image_dict['img_url'] = img_url        
+        hemisphere_img_urls.append(mars_image_dict)      
+
+    # display urls
+    #hemisphere_img_urls
+
+    # store data in Mars dictionary
+    mars_data_dict = {
+        "news_title": news_title,
+        "news_paragraph": news_paragraph,
+        "featured_image_url": featured_image_url,
+        "fact_table": str(html_mars_table),
+        "hemisphere_images": hemisphere_img_urls
+    }
+
+    # display Mars dictionary
+    #mars_data_dict
+    
     # end of jupyter notebok code 
  
-
     # Close the browser after scraping
     browser.quit()
 
