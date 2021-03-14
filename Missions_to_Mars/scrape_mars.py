@@ -1,7 +1,17 @@
+# Import BeautifulSoup
+from bs4 import BeautifulSoup 
+
+# Import Splinter and set the chromedriver path
 from splinter import Browser
-from bs4 import BeautifulSoup as bs
 from webdriver_manager.chrome import ChromeDriverManager
+
+import pandas as pd
+import requests
+import pymongo
 import time
+from flask import Flask, render_template, redirect
+from flask_pymongo import PyMongo
+
 
 def init_browser():
     # @NOTE: Replace the path with your actual path to the chromedriver
@@ -13,19 +23,40 @@ def scrape_info():
     browser = init_browser()
     mars_data_dict = {}
 
-    # Visit Mars News website
-    url = "????"
+    # start -- insert jupyter notebok code here 
+
+    # ------------------------------------------
+    # - NASA Mars News Site
+    # ------------------------------------------
+
+    # Visit the following URL
+    url = 'https://mars.nasa.gov/news'
     browser.visit(url)
 
     time.sleep(1)
 
     # Scrape page into Soup
     html = browser.html
-    soup = bs(html, "html.parser")
+    soup = BeautifulSoup(html, 'html.parser')
+    #soup
 
-    # insert jupyter notebok code here
-    
-    
+    # Examine the results, then determine element that contains sought info
+    #print(soup.prettify())
+
+    # Scrape the NASA Mars News Site and collect the latest 
+    # News Title and Paragraph Text.
+    # Assign the text to variables that you can reference later.
+
+
+
+
+
+
+
+
+
+    # end of jupyter notebok code 
+ 
 
     # Close the browser after scraping
     browser.quit()
