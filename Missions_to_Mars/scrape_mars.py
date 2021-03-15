@@ -18,7 +18,6 @@ def init_browser():
     executable_path = {'executable_path': ChromeDriverManager().install()}
     return Browser("chrome", **executable_path, headless=False)
 
-
 def scrape_info():
     browser = init_browser()
     mars_data_dict = {}
