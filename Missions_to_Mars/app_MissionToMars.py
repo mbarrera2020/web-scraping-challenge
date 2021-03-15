@@ -1,3 +1,10 @@
+#######################################################################  
+##  MongoDB and Flask Application
+##  Author:  Maria Barrera
+##  Date: 03/14/2021
+##  Mission to Mars -- web-scraping challenge
+########################################################################-->
+
 from flask import Flask, render_template, redirect
 from flask_pymongo import PyMongo
 import scrape_mars
