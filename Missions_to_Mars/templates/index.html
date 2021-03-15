@@ -39,7 +39,7 @@
           <div class="col-md-8 border">
             <h2 class="">Featured Mars Image</h2> 
             </br>
-            <img src="https://data-class-jpl-space.s3.amazonaws.com/JPL_Space/image/featured/mars2.jpg" alt="Featured Mars Image">
+            <img class = "img-fluid" src="{{mars.featured_image_url | safe }}" alt="Featured Mars Image">
           </div>
           <div class="col-md-4">
             <div class="border">
@@ -63,7 +63,7 @@
             <div class="col-6 border">
             </br>
                   <div>
-                    <img width="60%" height="60%" src="{{ hemisphere.img_url | safe }}">
+                    <img class = "img-fluid" src="{{ hemisphere.img_url | safe }}">
                   </div>
                   <div>
                     <h4> {{ hemisphere.title | safe }} </h4>  
